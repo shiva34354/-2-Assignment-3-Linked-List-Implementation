@@ -1,0 +1,78 @@
+#include <iostream>
+using namespace std;
+
+// Node structure for linked list
+struct Node {
+    int row, col, value;
+    Node* next;
+};
+
+// Function to create a new node
+Node* createNode(int row, int col, int value) {
+    Node* newNode = new Node();
+    newNode->row = row;
+    newNode->col = col;
+    newNode->value = value;
+    newNode->next = nullptr;
+    return newNode;
+}
+
+// Function to convert a 2D matrix into a linked list
+Node* convertToLinkedList(int matrix[][100], int rows, int cols) {
+    Node* head = nullptr;
+    Node* tail = nullptr;
+
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            if (matrix[i][j] != 0) {
+                Node* newNode = createNode(i, j, matrix[i][j]);
+                if (head == nullptr) {
+                    head = newNode;
+                    tail = newNode;
+                } else {
+                    tail->next = newNode;
+                    tail = newNode;
+                }
+            }
+        }
+    }
+    return head;
+}
+
+// Function to display the linked list
+void displayLinkedList(Node* head) {
+    Node* current = head;
+    while (current != nullptr) {
+        cout << "Row: " << current->row << ", Column: " << current->col << ", Value: " << current->value << endl;
+        current = current->next;
+    }
+}
+
+int main() {
+    int rows, cols;
+
+    // Input matrix dimensions
+    cout << "Enter number of rows: ";
+    cin >> rows;
+    cout << "Enter number of columns: ";
+    cin >> cols;
+
+    int matrix[100][100]; // Assuming a maximum size of 100x100 for simplicity
+
+    // Input matrix elements
+    cout << "Enter the elements of the matrix (row by row):" << endl;
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            cin >> matrix[i][j];
+        }
+    }
+
+    // Convert to linked list
+    Node* sparseMatrixLinkedList = convertToLinkedList(matrix, rows, cols);
+
+    // Display the linked list
+    cout << "\nSparse Matrix Linked List Representation:" << endl;
+    displayLinkedList(sparseMatrixLinkedList);
+
+    return 0;
+}
